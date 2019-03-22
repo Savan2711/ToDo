@@ -14,13 +14,13 @@ namespace ToDo
                
         public UserService()
         {
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user1\Desktop\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
             cmd = new SqlCommand();
             cmd.Connection = con;
         }
         public bool AddUser(User user)
         {
-            cmd.CommandText = "INSERT INTO User VALUES(@userName, @password)";
+            cmd.CommandText = "INSERT INTO [User] VALUES(@userName, @password)";
             cmd.Parameters.AddWithValue("@userName", user.userName);
             cmd.Parameters.AddWithValue("@password", user.password);
 

@@ -13,10 +13,10 @@ namespace ToDo
 
         public bool ValidateUser()
         {
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user1\Desktop\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\SAVAN\DESKTOP\TODO\TODO\TODO\TODODATABASE.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT * from User WHERE userName=@userName and password=@password";
+            cmd.CommandText = "SELECT * from [User] WHERE userName=@userName and password=@password";
             cmd.Parameters.AddWithValue("@userName", userName);
             cmd.Parameters.AddWithValue("@password", password);
 

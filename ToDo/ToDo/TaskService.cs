@@ -13,18 +13,20 @@ namespace ToDo
         SqlCommand cmd;
         public TaskService()
         {
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user1\Desktop\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
             cmd = new SqlCommand();
             cmd.Connection = con;
         }
 
         public bool AddTask(User user, Task task)
         {
-            if(!user.ValidateUser())
+            if (!user.ValidateUser())
             {
                 return false;
             }
-
+            //con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            //cmd = new SqlCommand();
+            //cmd.Connection = con;
             cmd.CommandText = "INSERT INTO Task VALUES(@title, @description, @isCompleted)";
             cmd.Parameters.AddWithValue("@title", task.title);
             cmd.Parameters.AddWithValue("@description", task.description);
@@ -46,7 +48,7 @@ namespace ToDo
                 return false;
             }
 
-            cmd.CommandText = "DELETE FROM Task WHERE title=@title";
+            cmd.CommandText = "DELETE FROM [Task] WHERE title=@title";
             cmd.Parameters.AddWithValue("@title", taskTitle);
             
             con.Open();
@@ -65,12 +67,45 @@ namespace ToDo
 
         public bool MarkTaskCompleted(User user, string taskTitle)
         {
-            throw new NotImplementedException();
+            if (!user.ValidateUser())
+            {
+                return false;
+            }
+
+            cmd.CommandText = "UPDATE Task SET isCompleted=@isCompleted WHERE title=@title";
+            cmd.Parameters.AddWithValue("@title", taskTitle);
+            cmd.Parameters.AddWithValue("@isCompleted", 1);
+
+            con.Open();
+
+            int addedRows = cmd.ExecuteNonQuery();
+
+            con.Close();
+
+            return addedRows == 1 ? true : false;
+
         }
 
         public bool UpdateTask(User user, string taskTitle, Task task)
         {
-            throw new NotImplementedException();
+            if (!user.ValidateUser())
+            {
+                return false;
+            }
+
+            cmd.CommandText = "UPDATE Task SET title=@newTitle, description=@description, isCompleted=@isCompleted WHERE title=@title";
+            cmd.Parameters.AddWithValue("@title", taskTitle);
+            cmd.Parameters.AddWithValue("@newTitle", task.title);
+            cmd.Parameters.AddWithValue("@description", task.description);
+            cmd.Parameters.AddWithValue("@isCompleted", task.isCompleted);
+
+            con.Open();
+
+            int addedRows = cmd.ExecuteNonQuery();
+
+            con.Close();
+
+            return addedRows == 1 ? true : false;
         }
     }
 }
