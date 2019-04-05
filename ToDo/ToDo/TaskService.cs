@@ -27,10 +27,11 @@ namespace ToDo
             //con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
             //cmd = new SqlCommand();
             //cmd.Connection = con;
-            cmd.CommandText = "INSERT INTO Task VALUES(@title, @description, @isCompleted)";
+            cmd.CommandText = "INSERT INTO Task VALUES(@title, @description, @isCompleted, @username)";
             cmd.Parameters.AddWithValue("@title", task.title);
             cmd.Parameters.AddWithValue("@description", task.description);
             cmd.Parameters.AddWithValue("@isCompleted", task.isCompleted ? 1 : 0);
+            cmd.Parameters.AddWithValue("@username", user.userName);
 
             con.Open();
 
@@ -48,8 +49,9 @@ namespace ToDo
                 return false;
             }
 
-            cmd.CommandText = "DELETE FROM [Task] WHERE title=@title";
+            cmd.CommandText = "DELETE FROM [Task] WHERE title=@title and username=@username";
             cmd.Parameters.AddWithValue("@title", taskTitle);
+            cmd.Parameters.AddWithValue("@username", user.userName);
             
             con.Open();
 
@@ -72,9 +74,10 @@ namespace ToDo
                 return false;
             }
 
-            cmd.CommandText = "UPDATE Task SET isCompleted=@isCompleted WHERE title=@title";
+            cmd.CommandText = "UPDATE Task SET isCompleted=@isCompleted WHERE title=@title and username=@username";
             cmd.Parameters.AddWithValue("@title", taskTitle);
             cmd.Parameters.AddWithValue("@isCompleted", 1);
+            cmd.Parameters.AddWithValue("@username", user.userName);
 
             con.Open();
 
@@ -93,11 +96,12 @@ namespace ToDo
                 return false;
             }
 
-            cmd.CommandText = "UPDATE Task SET title=@newTitle, description=@description, isCompleted=@isCompleted WHERE title=@title";
+            cmd.CommandText = "UPDATE Task SET title=@newTitle, description=@description, isCompleted=@isCompleted WHERE title=@title and username=@username";
             cmd.Parameters.AddWithValue("@title", taskTitle);
             cmd.Parameters.AddWithValue("@newTitle", task.title);
             cmd.Parameters.AddWithValue("@description", task.description);
             cmd.Parameters.AddWithValue("@isCompleted", task.isCompleted);
+            cmd.Parameters.AddWithValue("@username", user.userName);
 
             con.Open();
 
