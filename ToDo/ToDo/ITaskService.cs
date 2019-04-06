@@ -19,7 +19,7 @@ namespace ToDo
         [OperationContract]
         bool DeleteTask(User user, string taskTitle);
         [OperationContract]
-        string GetAllTasks(User user);
+        List<Task> GetAllTasks(User user);
         [OperationContract]
         string SearchTaskByTitle(User user,string taskTitle);
     }

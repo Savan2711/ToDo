@@ -65,13 +65,13 @@ namespace ToDo
             return addedRows == 1 ? true : false;
         }
 
-        public string GetAllTasks(User user)
+        public List<Task> GetAllTasks(User user)
         {
-            string allTask = "Invalid User";
+            //string allTask = "Invalid User";
 
             if (!user.ValidateUser())
             {
-                return allTask;
+                return null;
             }
 
             cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
@@ -94,14 +94,14 @@ namespace ToDo
                 }
             }
             Console.WriteLine(taskList.ToString());
-            allTask = JsonConvert.SerializeObject(taskList);
-
+            //allTask = JsonConvert.SerializeObject(taskList);
             reader.Close();
             con.Close();
-            return allTask;
+            return taskList;
+            //reader.Close();
+            //con.Close();
+            //return allTask;
         }
-
-
 
         public string SearchTaskByTitle(User user, string taskTitle)
         {

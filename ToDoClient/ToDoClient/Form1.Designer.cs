@@ -28,54 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.usernameBox = new System.Windows.Forms.TextBox();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.username = new System.Windows.Forms.Label();
+            this.password = new System.Windows.Forms.Label();
+            this.getAllTask = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // usernameBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(291, 105);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 0;
+            this.usernameBox.Location = new System.Drawing.Point(291, 105);
+            this.usernameBox.Name = "usernameBox";
+            this.usernameBox.Size = new System.Drawing.Size(100, 22);
+            this.usernameBox.TabIndex = 0;
             // 
-            // textBox2
+            // passwordBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(291, 167);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 1;
+            this.passwordBox.Location = new System.Drawing.Point(291, 154);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.Size = new System.Drawing.Size(100, 22);
+            this.passwordBox.TabIndex = 1;
             // 
-            // textBox3
+            // username
             // 
-            this.textBox3.Location = new System.Drawing.Point(291, 218);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 22);
-            this.textBox3.TabIndex = 2;
+            this.username.AutoSize = true;
+            this.username.Location = new System.Drawing.Point(183, 110);
+            this.username.Name = "username";
+            this.username.Size = new System.Drawing.Size(73, 17);
+            this.username.TabIndex = 4;
+            this.username.Text = "Username";
             // 
-            // comboBox1
+            // password
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(291, 40);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
-            this.comboBox1.TabIndex = 3;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.password.AutoSize = true;
+            this.password.Location = new System.Drawing.Point(186, 159);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(69, 17);
+            this.password.TabIndex = 5;
+            this.password.Text = "Password";
+            // 
+            // getAllTask
+            // 
+            this.getAllTask.Location = new System.Drawing.Point(250, 225);
+            this.getAllTask.Name = "getAllTask";
+            this.getAllTask.Size = new System.Drawing.Size(95, 26);
+            this.getAllTask.TabIndex = 6;
+            this.getAllTask.Text = "Get All Task";
+            this.getAllTask.UseVisualStyleBackColor = true;
+            this.getAllTask.Click += new System.EventHandler(this.getAllTask_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(247, 192);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 17);
+            this.label1.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 378);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.getAllTask);
+            this.Controls.Add(this.password);
+            this.Controls.Add(this.username);
+            this.Controls.Add(this.passwordBox);
+            this.Controls.Add(this.usernameBox);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -83,10 +108,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox usernameBox;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Label username;
+        private System.Windows.Forms.Label password;
+        private System.Windows.Forms.Button getAllTask;
+        private System.Windows.Forms.Label label1;
     }
 }
 
