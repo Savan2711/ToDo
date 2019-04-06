@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ToDo
 {
@@ -11,6 +12,8 @@ namespace ToDo
     {
         SqlConnection con;
         SqlCommand cmd;
+        SqlDataReader reader;
+
         public TaskService()
         {
             con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
@@ -62,11 +65,25 @@ namespace ToDo
             return addedRows == 1 ? true : false;
         }
 
-        public IEnumerable<Task> GetAllTasks(User user)
-        {
-            throw new NotImplementedException();
-        }
+        public string GetAllTasks(User user)
+        { 
+            string allTask = "Invalid User";
 
+            if (!user.ValidateUser())
+            {
+                return allTask;
+            }
+
+            cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
+            cmd.Parameters.AddWithValue("@username", user.userName);
+
+            reader = cmd.ExecuteReader();
+            allTask = JsonConvert.SerializeObject(reader);
+            reader.Close();
+
+            return allTask;
+        }
+            
         public bool MarkTaskCompleted(User user, string taskTitle)
         {
             if (!user.ValidateUser())
@@ -110,6 +127,27 @@ namespace ToDo
             con.Close();
 
             return addedRows == 1 ? true : false;
+        }
+
+        public string SearchTaskByTitle(User user, string taskTitle)
+        {
+            string allTask = "Invalid User";
+
+            if (!user.ValidateUser())
+            {
+                return allTask;
+            }
+
+            cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
+            cmd.Parameters.AddWithValue("@username", user.userName);
+            cmd.Parameters.AddWithValue("@taskTitle",taskTitle);
+
+            reader = cmd.ExecuteReader();
+            allTask = JsonConvert.SerializeObject(reader);
+            reader.Close();
+
+            return allTask;
+
         }
     }
 }

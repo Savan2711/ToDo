@@ -18,6 +18,8 @@ namespace ToDo
         [OperationContract]
         bool DeleteTask(User user, string taskTitle);
         [OperationContract]
-        IEnumerable<Task> GetAllTasks(User user);
+        string GetAllTasks(User user);
+        [OperationContract]
+        string SearchTaskByTitle(User user,string taskTitle);
     }
 }
