@@ -18,6 +18,7 @@ namespace ToDoHost
             Uri taskTcp = new Uri("net.tcp://localhost:8010/TaskService");
 
             Uri userTcp = new Uri("net.tcp://localhost:8010/UserService");
+
             using (ServiceHost userHost = new ServiceHost(userService, userTcp))
             using (ServiceHost taskHost = new ServiceHost(taskService, taskTcp))
             {

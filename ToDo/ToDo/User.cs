@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace ToDo
 {
+    [DataContract]
     public class User
     {
+        [DataMember]
         public string userName { get; set; }
+        [DataMember]
         public string password { get; set; }
 
         public bool ValidateUser()
