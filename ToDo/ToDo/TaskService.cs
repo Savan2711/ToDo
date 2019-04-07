@@ -65,8 +65,46 @@ namespace ToDo
             return addedRows == 1 ? true : false;
         }
 
-        public string GetAllTasks(User user)
-        { 
+        public List<Task> GetAllTasks(User user)
+        {
+            //string allTask = "Invalid User";
+
+            if (!user.ValidateUser())
+            {
+                return null;
+            }
+
+            cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
+            cmd.Parameters.AddWithValue("@username", user.userName);
+
+            con.Open();
+            reader = cmd.ExecuteReader();
+
+            List<Task> taskList = new List<Task>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Task thisTask = new Task();
+                    thisTask.title = reader.GetString(0);
+                    thisTask.description = reader.GetString(1);
+                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
+                    taskList.Add(thisTask);
+                }
+            }
+            Console.WriteLine(taskList.ToString());
+            //allTask = JsonConvert.SerializeObject(taskList);
+            reader.Close();
+            con.Close();
+            return taskList;
+            //reader.Close();
+            //con.Close();
+            //return allTask;
+        }
+
+        public string SearchTaskByTitle(User user, string taskTitle)
+        {
             string allTask = "Invalid User";
 
             if (!user.ValidateUser())
@@ -74,16 +112,32 @@ namespace ToDo
                 return allTask;
             }
 
-            cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
+            cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
             cmd.Parameters.AddWithValue("@username", user.userName);
-
+            cmd.Parameters.AddWithValue("@taskTitle", taskTitle);
+            con.Open();
             reader = cmd.ExecuteReader();
-            allTask = JsonConvert.SerializeObject(reader);
-            reader.Close();
 
+            List<Task> taskList = new List<Task>();
+
+            while (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Task thisTask = new Task();
+                    thisTask.title = reader.GetString(0);
+                    thisTask.description = reader.GetString(1);
+                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
+                    taskList.Add(thisTask);
+                }
+            }
+            allTask = JsonConvert.SerializeObject(taskList);
+
+            reader.Close();
+            con.Close();
             return allTask;
         }
-            
+
         public bool MarkTaskCompleted(User user, string taskTitle)
         {
             if (!user.ValidateUser())
@@ -127,27 +181,6 @@ namespace ToDo
             con.Close();
 
             return addedRows == 1 ? true : false;
-        }
-
-        public string SearchTaskByTitle(User user, string taskTitle)
-        {
-            string allTask = "Invalid User";
-
-            if (!user.ValidateUser())
-            {
-                return allTask;
-            }
-
-            cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
-            cmd.Parameters.AddWithValue("@username", user.userName);
-            cmd.Parameters.AddWithValue("@taskTitle",taskTitle);
-
-            reader = cmd.ExecuteReader();
-            allTask = JsonConvert.SerializeObject(reader);
-            reader.Close();
-
-            return allTask;
-
         }
     }
 }

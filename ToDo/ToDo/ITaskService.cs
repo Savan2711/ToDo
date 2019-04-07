@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -18,7 +19,7 @@ namespace ToDo
         [OperationContract]
         bool DeleteTask(User user, string taskTitle);
         [OperationContract]
-        string GetAllTasks(User user);
+        List<Task> GetAllTasks(User user);
         [OperationContract]
         string SearchTaskByTitle(User user,string taskTitle);
     }

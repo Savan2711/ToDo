@@ -19,7 +19,7 @@ namespace ToDoHost
 
             Uri userTcp = new Uri("net.tcp://localhost:8010/UserService");
             using (ServiceHost userHost = new ServiceHost(userService, userTcp))
-            using (ServiceHost taskHost = new ServiceHost(userService, taskTcp))
+            using (ServiceHost taskHost = new ServiceHost(taskService, taskTcp))
             {
                 userHost.Open();
                 Console.WriteLine("UserService Published");
