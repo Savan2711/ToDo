@@ -16,7 +16,7 @@ namespace ToDo
 
         public TaskService()
         {
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            con = new SqlConnection(@"Data Source = (localdb)\ProjectsV13; Initial Catalog = master; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = True; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
             cmd = new SqlCommand();
             cmd.Connection = con;
         }
@@ -77,9 +77,26 @@ namespace ToDo
             cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
             cmd.Parameters.AddWithValue("@username", user.userName);
 
+            con.Open();
             reader = cmd.ExecuteReader();
-            allTask = JsonConvert.SerializeObject(reader);
+            
+            List<Task> taskList = new List<Task>();
+
+            if(reader.HasRows)
+            {
+                while(reader.Read())
+                {
+                    Task thisTask = new Task(); 
+                    thisTask.title = reader.GetString(0);
+                    thisTask.description = reader.GetString(1);
+                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
+                    taskList.Add(thisTask);
+                }
+            }
+            allTask = JsonConvert.SerializeObject(taskList);
+
             reader.Close();
+            con.Close();
 
             return allTask;
         }
@@ -141,13 +158,28 @@ namespace ToDo
             cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
             cmd.Parameters.AddWithValue("@username", user.userName);
             cmd.Parameters.AddWithValue("@taskTitle",taskTitle);
-
+            con.Open();
             reader = cmd.ExecuteReader();
-            allTask = JsonConvert.SerializeObject(reader);
+            
+            List<Task> taskList = new List<Task>();
+
+            if(reader.HasRows)
+            {
+                while(reader.Read())
+                {
+                    Task thisTask = new Task();
+                    thisTask.title = reader.GetString(0);
+                    thisTask.description = reader.GetString(1);
+                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
+                    taskList.Add(thisTask);
+                }
+            }
+            allTask = JsonConvert.SerializeObject(taskList);
+
             reader.Close();
+            con.Close();
 
             return allTask;
-
         }
     }
 }

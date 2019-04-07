@@ -28,3 +28,5 @@ E:\WebProjects\ToDo\ToDo\ToDo\bin\Debug\ToDo.pdb
 E:\WebProjects\ToDo\ToDo\ToDo\obj\Debug\ToDo.csprojResolveAssemblyReference.cache
 E:\WebProjects\ToDo\ToDo\ToDo\obj\Debug\ToDo.dll
 E:\WebProjects\ToDo\ToDo\ToDo\obj\Debug\ToDo.pdb
+E:\WebProjects\ToDo\ToDo\ToDo\bin\Debug\Newtonsoft.Json.dll
+E:\WebProjects\ToDo\ToDo\ToDo\bin\Debug\Newtonsoft.Json.xml
