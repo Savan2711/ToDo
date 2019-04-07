@@ -22,7 +22,7 @@ namespace ToDo
 
         public bool AddTask(User user, Task task)
         {
-            if (!user.ValidateUser())
+            if (user==null || !user.ValidateUser())
             {
                 return false;
             }
@@ -37,7 +37,16 @@ namespace ToDo
 
             con.Open();
 
-            int addedRows = cmd.ExecuteNonQuery();
+            int addedRows;
+            try
+            {
+                addedRows = cmd.ExecuteNonQuery();
+            }
+            catch(SqlException e)
+            {
+                con.Close();
+                return false;
+            }
 
             con.Close();
 
@@ -123,7 +132,7 @@ namespace ToDo
             con.Open();
             reader = cmd.ExecuteReader();
 
-            while (reader.HasRows)
+            if(reader.HasRows)
             {
                 while (reader.Read())
                 {
@@ -177,9 +186,17 @@ namespace ToDo
 
             con.Open();
 
-            int addedRows = cmd.ExecuteNonQuery();
+            int addedRows;
 
-            con.Close();
+            try
+            {
+                addedRows = cmd.ExecuteNonQuery();
+            }
+            catch(SqlException ex)
+            {
+                con.Close();
+                return false;
+            }
 
             return addedRows == 1 ? true : false;
         }
