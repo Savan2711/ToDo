@@ -21,6 +21,6 @@ namespace ToDo
         [OperationContract]
         List<Task> GetAllTasks(User user);
         [OperationContract]
-        string SearchTaskByTitle(User user,string taskTitle);
+        Task SearchTaskByTitle(User user,string taskTitle);
     }
 }

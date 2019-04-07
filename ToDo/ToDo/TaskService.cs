@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace ToDo
 {
@@ -16,7 +15,7 @@ namespace ToDo
 
         public TaskService()
         {
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            con = new SqlConnection(@"Data Source = (localdb)\ProjectsV13; Initial Catalog = master; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = True; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
             cmd = new SqlCommand();
             cmd.Connection = con;
         }
@@ -55,7 +54,7 @@ namespace ToDo
             cmd.CommandText = "DELETE FROM [Task] WHERE title=@title and username=@username";
             cmd.Parameters.AddWithValue("@title", taskTitle);
             cmd.Parameters.AddWithValue("@username", user.userName);
-            
+
             con.Open();
 
             int addedRows = cmd.ExecuteNonQuery();
@@ -93,23 +92,29 @@ namespace ToDo
                     taskList.Add(thisTask);
                 }
             }
-            Console.WriteLine(taskList.ToString());
-            //allTask = JsonConvert.SerializeObject(taskList);
+            else
+            {
+                Task emptyTask = new Task();
+
+                emptyTask.title = "No Task Added!";
+                emptyTask.description = "No Task Added";
+                emptyTask.isCompleted = true;
+
+                taskList.Add(emptyTask);
+            }
+
+            //Console.WriteLine(taskList.ToString());
             reader.Close();
             con.Close();
             return taskList;
-            //reader.Close();
-            //con.Close();
-            //return allTask;
         }
 
-        public string SearchTaskByTitle(User user, string taskTitle)
+        public Task SearchTaskByTitle(User user, string taskTitle)
         {
-            string allTask = "Invalid User";
-
+            Task thisTask = null;
             if (!user.ValidateUser())
             {
-                return allTask;
+                return null;
             }
 
             cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
@@ -118,24 +123,20 @@ namespace ToDo
             con.Open();
             reader = cmd.ExecuteReader();
 
-            List<Task> taskList = new List<Task>();
-
             while (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    Task thisTask = new Task();
+                    thisTask = new Task();
                     thisTask.title = reader.GetString(0);
                     thisTask.description = reader.GetString(1);
                     thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
-                    taskList.Add(thisTask);
                 }
             }
-            allTask = JsonConvert.SerializeObject(taskList);
 
             reader.Close();
             con.Close();
-            return allTask;
+            return thisTask;
         }
 
         public bool MarkTaskCompleted(User user, string taskTitle)
