@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace ToDo
 {
@@ -55,7 +54,7 @@ namespace ToDo
             cmd.CommandText = "DELETE FROM [Task] WHERE title=@title and username=@username";
             cmd.Parameters.AddWithValue("@title", taskTitle);
             cmd.Parameters.AddWithValue("@username", user.userName);
-            
+
             con.Open();
 
             int addedRows = cmd.ExecuteNonQuery();
@@ -65,13 +64,13 @@ namespace ToDo
             return addedRows == 1 ? true : false;
         }
 
-        public string GetAllTasks(User user)
-        { 
-            string allTask = "Invalid User";
+        public List<Task> GetAllTasks(User user)
+        {
+            //string allTask = "Invalid User";
 
             if (!user.ValidateUser())
             {
-                return allTask;
+                return null;
             }
 
             cmd.CommandText = "SELECT * FROM Task WHERE username=@username";
@@ -79,28 +78,67 @@ namespace ToDo
 
             con.Open();
             reader = cmd.ExecuteReader();
-            
+
             List<Task> taskList = new List<Task>();
 
-            if(reader.HasRows)
+            if (reader.HasRows)
             {
-                while(reader.Read())
+                while (reader.Read())
                 {
-                    Task thisTask = new Task(); 
+                    Task thisTask = new Task();
                     thisTask.title = reader.GetString(0);
                     thisTask.description = reader.GetString(1);
                     thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
                     taskList.Add(thisTask);
                 }
             }
-            allTask = JsonConvert.SerializeObject(taskList);
+            else
+            {
+                Task emptyTask = new Task();
+
+                emptyTask.title = "No Task Added!";
+                emptyTask.description = "No Task Added";
+                emptyTask.isCompleted = true;
+
+                taskList.Add(emptyTask);
+            }
+
+            //Console.WriteLine(taskList.ToString());
+            reader.Close();
+            con.Close();
+            return taskList;
+        }
+
+        public Task SearchTaskByTitle(User user, string taskTitle)
+        {
+            Task thisTask = null;
+            if (!user.ValidateUser())
+            {
+                return null;
+            }
+
+            cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
+            cmd.Parameters.AddWithValue("@username", user.userName);
+            cmd.Parameters.AddWithValue("@taskTitle", taskTitle);
+            con.Open();
+            reader = cmd.ExecuteReader();
+
+            while (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    thisTask = new Task();
+                    thisTask.title = reader.GetString(0);
+                    thisTask.description = reader.GetString(1);
+                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
+                }
+            }
 
             reader.Close();
             con.Close();
-
-            return allTask;
+            return thisTask;
         }
-            
+
         public bool MarkTaskCompleted(User user, string taskTitle)
         {
             if (!user.ValidateUser())
@@ -144,42 +182,6 @@ namespace ToDo
             con.Close();
 
             return addedRows == 1 ? true : false;
-        }
-
-        public string SearchTaskByTitle(User user, string taskTitle)
-        {
-            string allTask = "Invalid User";
-
-            if (!user.ValidateUser())
-            {
-                return allTask;
-            }
-
-            cmd.CommandText = "SELECT * FROM Task WHERE username=@username AND title=@taskTitle";
-            cmd.Parameters.AddWithValue("@username", user.userName);
-            cmd.Parameters.AddWithValue("@taskTitle",taskTitle);
-            con.Open();
-            reader = cmd.ExecuteReader();
-            
-            List<Task> taskList = new List<Task>();
-
-            if(reader.HasRows)
-            {
-                while(reader.Read())
-                {
-                    Task thisTask = new Task();
-                    thisTask.title = reader.GetString(0);
-                    thisTask.description = reader.GetString(1);
-                    thisTask.isCompleted = reader.GetInt32(2) == 1 ? true : false;
-                    taskList.Add(thisTask);
-                }
-            }
-            allTask = JsonConvert.SerializeObject(taskList);
-
-            reader.Close();
-            con.Close();
-
-            return allTask;
         }
     }
 }
