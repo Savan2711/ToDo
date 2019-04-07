@@ -186,10 +186,10 @@ namespace ToDoClient.TaskServiceReference {
         System.Threading.Tasks.Task<ToDoClient.TaskServiceReference.Task[]> GetAllTasksAsync(ToDoClient.TaskServiceReference.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskService/SearchTaskByTitle", ReplyAction="http://tempuri.org/ITaskService/SearchTaskByTitleResponse")]
-        string SearchTaskByTitle(ToDoClient.TaskServiceReference.User user, string taskTitle);
+        ToDoClient.TaskServiceReference.Task SearchTaskByTitle(ToDoClient.TaskServiceReference.User user, string taskTitle);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITaskService/SearchTaskByTitle", ReplyAction="http://tempuri.org/ITaskService/SearchTaskByTitleResponse")]
-        System.Threading.Tasks.Task<string> SearchTaskByTitleAsync(ToDoClient.TaskServiceReference.User user, string taskTitle);
+        System.Threading.Tasks.Task<ToDoClient.TaskServiceReference.Task> SearchTaskByTitleAsync(ToDoClient.TaskServiceReference.User user, string taskTitle);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -259,11 +259,11 @@ namespace ToDoClient.TaskServiceReference {
             return base.Channel.GetAllTasksAsync(user);
         }
         
-        public string SearchTaskByTitle(ToDoClient.TaskServiceReference.User user, string taskTitle) {
+        public ToDoClient.TaskServiceReference.Task SearchTaskByTitle(ToDoClient.TaskServiceReference.User user, string taskTitle) {
             return base.Channel.SearchTaskByTitle(user, taskTitle);
         }
         
-        public System.Threading.Tasks.Task<string> SearchTaskByTitleAsync(ToDoClient.TaskServiceReference.User user, string taskTitle) {
+        public System.Threading.Tasks.Task<ToDoClient.TaskServiceReference.Task> SearchTaskByTitleAsync(ToDoClient.TaskServiceReference.User user, string taskTitle) {
             return base.Channel.SearchTaskByTitleAsync(user, taskTitle);
         }
     }

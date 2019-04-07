@@ -31,6 +31,7 @@ namespace ToDoClient
             description.Visible = false;
             descriptionBox.Visible = false;
             confirm.Visible = false;
+            label1.Visible = false;
         
             user.userName = Form1.userName;
             user.password = Form1.passWord;
@@ -76,21 +77,36 @@ namespace ToDoClient
             if(confirm.Text == "Confirm Add")
             {
                 Console.WriteLine(taskClient.AddTask(user, task));
-
-                //TaskServiceReference.Task[] allTask = taskClient.GetAllTasks(user);
-                //List<Task> lst = new List<Task>(allTask);
-                //List<String> titleList = new List<string>();
-                //foreach (var i in lst)
-                //{
-                //    titleList.Add(i.title + " " + i.description + " " + i.isCompleted);
-                //}
-                //listBox1.Items.Clear();
-                //listBox1.DataSource = titleList;
+                taskClient.Close();
+                label1.Text = task.title + " is added successfully.";
+                label1.Visible = true;
+                TaskServiceClient taskClient1 = new TaskServiceClient();
+                TaskServiceReference.Task[] allTask = taskClient1.GetAllTasks(user);
+                List<Task> lst = new List<Task>(allTask);
+                List<String> titleList = new List<string>();
+                foreach (var i in lst)
+                {
+                    titleList.Add(i.title);// + " " + i.description + " " + i.isCompleted);
+                }
+                listBox1.DataSource = titleList;
+                taskClient1.Close();
             }
             else if(confirm.Text == "Confirm Update")
             {
                 String taskString = listBox1.SelectedItem.ToString();
                 taskClient.UpdateTask(user, taskString, task);
+                label1.Text = listBox1.SelectedItem + " is updated successfully.";
+                label1.Visible = true;
+                TaskServiceClient taskClient1 = new TaskServiceClient();
+                TaskServiceReference.Task[] allTask = taskClient1.GetAllTasks(user);
+                List<Task> lst = new List<Task>(allTask);
+                List<String> titleList = new List<string>();
+                foreach (var i in lst)
+                {
+                    titleList.Add(i.title);// + " " + i.description + " " + i.isCompleted);
+                }
+                listBox1.DataSource = titleList;
+                taskClient1.Close();
             }
             taskClient.Close();
         }
@@ -109,7 +125,40 @@ namespace ToDoClient
         {
             TaskServiceClient taskClient = new TaskServiceClient();
             taskClient.DeleteTask(user, listBox1.SelectedItem.ToString());
+            label1.Text = listBox1.SelectedItem + " is deleted.";
+            label1.Visible = true;
             taskClient.Close();
+            TaskServiceClient taskClient1 = new TaskServiceClient();
+            TaskServiceReference.Task[] allTask = taskClient1.GetAllTasks(user);
+            List<Task> lst = new List<Task>(allTask);
+            List<String> titleList = new List<string>();
+            foreach (var i in lst)
+            {
+                titleList.Add(i.title);// + " " + i.description + " " + i.isCompleted);
+            }
+            listBox1.DataSource = titleList;
+            taskClient1.Close();
+        }
+
+        private void completeTask_Click(object sender, EventArgs e)
+        {
+            TaskServiceClient taskClient = new TaskServiceClient();
+            taskClient.MarkTaskCompleted(user, listBox1.SelectedItem.ToString());
+            label1.Text = listBox1.SelectedItem + " is completed.";
+            label1.Visible = true;
+            taskClient.Close();
+        }
+
+        private void getDescription_Click(object sender, EventArgs e)
+        {
+            TaskServiceClient taskClient = new TaskServiceClient();
+            TaskServiceReference.Task task = taskClient.SearchTaskByTitle(user, listBox1.SelectedItem.ToString());
+            description.Visible = true;
+            descriptionBox.Visible = true;
+            descriptionBox.Text = task.description;
+            descriptionBox.Enabled = false;
+            taskClient.Close();
+
         }
     } 
 }

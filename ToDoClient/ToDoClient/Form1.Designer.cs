@@ -38,14 +38,14 @@
             // 
             // usernameBox
             // 
-            this.usernameBox.Location = new System.Drawing.Point(291, 105);
+            this.usernameBox.Location = new System.Drawing.Point(388, 105);
             this.usernameBox.Name = "usernameBox";
             this.usernameBox.Size = new System.Drawing.Size(100, 22);
             this.usernameBox.TabIndex = 0;
             // 
             // passwordBox
             // 
-            this.passwordBox.Location = new System.Drawing.Point(291, 154);
+            this.passwordBox.Location = new System.Drawing.Point(388, 152);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.Size = new System.Drawing.Size(100, 22);
             this.passwordBox.TabIndex = 1;
@@ -53,7 +53,7 @@
             // username
             // 
             this.username.AutoSize = true;
-            this.username.Location = new System.Drawing.Point(183, 110);
+            this.username.Location = new System.Drawing.Point(265, 108);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(73, 17);
             this.username.TabIndex = 4;
@@ -62,7 +62,7 @@
             // password
             // 
             this.password.AutoSize = true;
-            this.password.Location = new System.Drawing.Point(186, 159);
+            this.password.Location = new System.Drawing.Point(265, 157);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(69, 17);
             this.password.TabIndex = 5;
@@ -70,9 +70,9 @@
             // 
             // getAllTask
             // 
-            this.getAllTask.Location = new System.Drawing.Point(250, 225);
+            this.getAllTask.Location = new System.Drawing.Point(318, 222);
             this.getAllTask.Name = "getAllTask";
-            this.getAllTask.Size = new System.Drawing.Size(95, 26);
+            this.getAllTask.Size = new System.Drawing.Size(108, 39);
             this.getAllTask.TabIndex = 6;
             this.getAllTask.Text = "Get All Task";
             this.getAllTask.UseVisualStyleBackColor = true;

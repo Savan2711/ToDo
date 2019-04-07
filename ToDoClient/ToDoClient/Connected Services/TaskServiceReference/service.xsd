@@ -87,7 +87,7 @@
   <xs:element name="SearchTaskByTitleResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="SearchTaskByTitleResult" nillable="true" type="xs:string" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ToDo" minOccurs="0" name="SearchTaskByTitleResult" nillable="true" type="q10:Task" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

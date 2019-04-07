@@ -15,7 +15,7 @@ namespace ToDo
 
         public TaskService()
         {
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\WebProjects\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
+            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\savan\Desktop\ToDo\ToDo\ToDo\ToDoDatabase.mdf;Integrated Security=True;Connect Timeout=30");
             cmd = new SqlCommand();
             cmd.Connection = con;
         }
@@ -38,7 +38,7 @@ namespace ToDo
             con.Open();
 
             int addedRows = cmd.ExecuteNonQuery();
-
+            cmd.Dispose();
             con.Close();
 
             return addedRows == 1 ? true : false;
@@ -105,6 +105,7 @@ namespace ToDo
 
             //Console.WriteLine(taskList.ToString());
             reader.Close();
+            cmd.Dispose();
             con.Close();
             return taskList;
         }
@@ -123,7 +124,7 @@ namespace ToDo
             con.Open();
             reader = cmd.ExecuteReader();
 
-            while (reader.HasRows)
+            if (reader.HasRows)
             {
                 while (reader.Read())
                 {
